@@ -7,12 +7,12 @@
 1.一个账户只能部署一个合约
 2.
 
-apply(re,code,action)// re:执行人，code 合约（合约的所有者）， action：合约一个方法（条款）
+#执行合约入口
 
-
+1.init:部署合约的时候执行一次，用于初始化数据
+2.apply(re,code,action)// re:执行人，code 合约（合约的所有者）， action：合约一个方法（条款）
 
 获取被调用合约的参数
-
 ```c++
 buffer = max_stack_buffer_size < size ? malloc(size) : alloca(size);
 read_action_data( buffer, size );
@@ -22,4 +22,5 @@ print(" ||buffer=");
 print(name{std::get<0>(args)});
 ```
 
+# 数据持久化
 
