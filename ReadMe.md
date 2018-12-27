@@ -63,3 +63,47 @@ print(name{std::get<0>(args)});
 再对点M进行解码就可以得到明文。
 
 在这个加密通信中，如果有一个偷窥者H ，他只能看到Ep(a,b)、K、G、C1、C2，而通过K、G 求k 或通过C2、G求r 都是相对困难的，因此，H无法得到A、B间传送的明文信息。
+
+# EOS生成的公钥和密钥和ECC的关系
+
+Private key: 5KH5rJVEutCKxNnc2eRKYThdaA7xoWTmgNQ8wAXy43z3TZw4w8V
+Public key: EOS5jXdAzmjCZQzKWgYYt4gM5mN6GhDSpatnTpWKuubdLMf4xazWv
+
+Private key  =  base58 .endcode(0x80 + ecc_prvative + sha256(ecc_prvative)[0, 4])
+
+Public key = EOS + base58 .endcode( ecc_public_key + shas56(ecc_public_key)[0, 4])
+
+参考连接：
+
+https://github.com/EOSIO/eosjs-ecc
+
+https://github.com/bitcoin-core/secp256k1
+
+# EOS源码编译方法分析
+
+使用EOS源码中的ecc代码需要连接下面这些库
+
+target_link_libraries(hello_world /opt/eosio/lib/libfc.a
+​        /usr/local/lib/libboost_chrono.a
+​        /usr/local/lib/libboost_locale.a
+​        /usr/local/lib/libboost_prg_exec_monitor.a
+​        /usr/local/lib/libboost_thread.a
+​        /usr/local/lib/libboost_unit_test_framework.a
+​        /usr/local/lib/libboost_test_exec_monitor.a
+​        /usr/local/lib/libboost_iostreams.a
+​        /usr/local/lib/libboost_context.a
+​        /usr/local/lib/libboost_coroutine.a
+​        /usr/local/lib/libboost_signals.a
+​        /usr/local/lib/libboost_timer.a
+​        /usr/local/lib/libboost_date_time.a
+​        /usr/local/lib/libboost_system.a
+​        /usr/local/lib/libboost_program_options.a
+​        /usr/local/lib/libboost_wserialization.a
+​        /usr/local/lib/libboost_filesystem.a
+​        /usr/local/lib/libboost_serialization.a
+​        /usr/lib/x86_64-linux-gnu/libcrypto.a
+​        pthread
+​        /opt/eosio/lib/libsecp256k1.a
+​        /usr/lib/x86_64-linux-gnu/libgmp.a
+​        /lib/x86_64-linux-gnu/libdl.so.2
+​        )
