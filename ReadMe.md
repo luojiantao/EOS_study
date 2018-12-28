@@ -81,6 +81,28 @@ https://github.com/bitcoin-core/secp256k1
 
 # EOS源码编译方法分析
 
+使用eos中的ecc生成 公钥和私钥
+
+```c++
+#include "/eos/libraries/fc/include/fc/crypto/private_key.hpp"
+#include "/eos/programs/cleos/localize.hpp"
+#include <string>
+#include <stdlib.h>
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+int main(){
+        bool r1 = false;
+   //auto pk = fc::crypto::private_key();
+   auto pk = fc::crypto::private_key::generate();
+        auto privs = string(pk.get_public_key());
+   std::cout << string(pk) << std::endl;
+   std::cout << privs << std::endl;
+   std::cout << "test" << std::endl;
+   return 0;
+}
+```
+
 使用EOS源码中的ecc代码需要连接下面这些库
 
 target_link_libraries(hello_world /opt/eosio/lib/libfc.a
