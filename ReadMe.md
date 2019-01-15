@@ -5,7 +5,7 @@
 
 #注意点
 1.一个账户只能部署一个合约
-2.
+2.cleos docker 要在同一个容器中 hello.abi hello.wasm
 
 #执行合约入口
 
