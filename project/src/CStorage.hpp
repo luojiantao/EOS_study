@@ -12,9 +12,9 @@ struct ContractData {
     uint64_t hash;// sha256(creator + content)
     string content;
     string UseInfo;//存储所有合约状态的索引
-    //定义address表的主键
+
     uint64_t primary_key() const { return hash; }
-    //定义extractor，二级索引是phone
+
     uint64_t get_creator() const {return creator; }
  
     //序列化
@@ -35,9 +35,8 @@ struct ContractState {
     string describe;
     string State;
     
-    //定义address表的主键
     uint64_t primary_key() const { return hash; }
-    //定义extractor，二级索引是phone
+   
     uint64_t get_sponsor() const {return Sponsor; }
  
     //序列化
