@@ -4,7 +4,7 @@
 #include<stdlib.h>
 use namespace std;
 namespace ContractStorage{
-//如果，后续存在性能瓶颈，考虑每个合约独占一个Scope
+//Scope
 //合约内容存储
 //@abi table ContractData i64
 struct ContractData {
