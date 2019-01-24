@@ -16,3 +16,5 @@ cp ./ENV/appbase_comp.camke.in  ./libraries/appbase/CMakeLists.txt
 
 current_path=`pwd`
 ln -s ${current_path}/project ${current_path}/contracts/project
+sed -i '/add_subdirectory(integration_test)/a\add_subdirectory(project)' ${current_path}/contracts/CMakeLists.txt
+
