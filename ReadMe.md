@@ -129,3 +129,35 @@ target_link_libraries(hello_world /opt/eosio/lib/libfc.a
 ​        /usr/lib/x86_64-linux-gnu/libgmp.a
 ​        /lib/x86_64-linux-gnu/libdl.so.2
 ​        )
+
+# EOS智能合约编译方法分析
+源码目录下CMakeModules/wasm.cmake 这个文件定义了编译的方法
+##compile_wast
+编译 hello合约时
+入参 ：
+​    TARGET;hello;INCLUDE_FOLDERS;/root/MyCode/EOS_study/contracts;/root/MyCode/EOS_study/build/contracts;/root/MyCode/EOS_study/externals/magic_get/include;LIBRARIES;libc;libc++;eosiolib;DESTINATION_FOLDER;/root/MyCode/EOS_study/build/contracts/hello   
+
+<u>**==》**</u>
+
+**TARGET** = hello
+
+**INCLUDE_FOLDERS**= /root/MyCode/EOS_study/contracts;/root/MyCode/EOS_study/build/contracts;/root/MyCode/EOS_study/externals/magic_get/include;
+
+**LIBRARIES** = libc;libc++;eosiolib;
+
+**DESTINATION_FOLDER** = /root/MyCode/EOS_study/build/contracts/hello
+
+1. 查看入参中SOURCE_FILES 查看字段内容，如果不存在就默认找 ${TARGET}.cpp
+2. 把每个.cpp文件编译成.bc文件
+
+##add_wast_library
+
+1. 把compile_wast 编译出来的.bc文件，聚合生成一个.bc文件（类似静态库）
+
+##add_wast_executable
+
+1. 把源文件和连接的.bc文件。合起来编译成一个.bc文件
+2. 根据.bc文件生成.s文件
+3. 根据.s文件生成.wast文件
+4. 根据.wast文件生成.wasm文件
+5. 后面是一些临时文件，和测试对象
