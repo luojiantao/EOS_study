@@ -150,7 +150,7 @@ target_link_libraries(hello_world /opt/eosio/lib/libfc.a
 1. 查看入参中SOURCE_FILES 查看字段内容，如果不存在就默认找 ${TARGET}.cpp
 2. 把每个.cpp文件编译成.bc文件
 
-##add_wast_library
+###add_wast_library
 
 1. 把compile_wast 编译出来的.bc文件，聚合生成一个.bc文件（类似静态库）
 
