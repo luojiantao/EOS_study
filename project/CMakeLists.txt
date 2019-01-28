@@ -1,3 +1,4 @@
+#https://github.com/nlohmann/json.git json单文件版本
 #file(GLOB ABI_FILES "test.abi")
 #configure_file("${ABI_FILES}" "${CMAKE_CURRENT_BINARY_DIR}" COPYONLY)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
