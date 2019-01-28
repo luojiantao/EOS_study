@@ -132,19 +132,15 @@ target_link_libraries(hello_world /opt/eosio/lib/libfc.a
 
 # EOS智能合约编译方法分析
 源码目录下CMakeModules/wasm.cmake 这个文件定义了编译的方法
+
 ##compile_wast
 编译 hello合约时
 入参 ：
-​    TARGET;hello;INCLUDE_FOLDERS;/root/MyCode/EOS_study/contracts;/root/MyCode/EOS_study/build/contracts;/root/MyCode/EOS_study/externals/magic_get/include;LIBRARIES;libc;libc++;eosiolib;DESTINATION_FOLDER;/root/MyCode/EOS_study/build/contracts/hello   
-
-**==》**
-
+TARGET;hello;INCLUDE_FOLDERS;/root/MyCode/EOS_study/contracts;/root/MyCode/EOS_study/build/contracts;/root/MyCode/EOS_study/externals/magic_get/include;LIBRARIES;libc;libc++;eosiolib;DESTINATION_FOLDER;/root/MyCode/EOS_study/build/contracts/hello   
+||||||||||||||
 **TARGET** = hello
-
 **INCLUDE_FOLDERS**= /root/MyCode/EOS_study/contracts;/root/MyCode/EOS_study/build/contracts;/root/MyCode/EOS_study/externals/magic_get/include;
-
 **LIBRARIES** = libc;libc++;eosiolib;
-
 **DESTINATION_FOLDER** = /root/MyCode/EOS_study/build/contracts/hello
 
 1. 查看入参中SOURCE_FILES 查看字段内容，如果不存在就默认找 ${TARGET}.cpp
