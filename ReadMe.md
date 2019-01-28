@@ -151,11 +151,9 @@ target_link_libraries(hello_world /opt/eosio/lib/libfc.a
 2. 把每个.cpp文件编译成.bc文件
 
 ##add_wast_library
-
 1. 把compile_wast 编译出来的.bc文件，聚合生成一个.bc文件（类似静态库）
 
 ##add_wast_executable
-
 1. 把源文件和连接的.bc文件。合起来编译成一个.bc文件
 2. 根据.bc文件生成.s文件
 3. 根据.s文件生成.wast文件
