@@ -133,7 +133,7 @@ target_link_libraries(hello_world /opt/eosio/lib/libfc.a
 # EOS智能合约编译方法分析
 源码目录下CMakeModules/wasm.cmake 这个文件定义了编译的方法
 
-##compile_wast
+## compile_wast
 编译 hello合约时
 入参 ：
 TARGET;hello;INCLUDE_FOLDERS;/root/MyCode/EOS_study/contracts;/root/MyCode/EOS_study/build/contracts;/root/MyCode/EOS_study/externals/magic_get/include;LIBRARIES;libc;libc++;eosiolib;DESTINATION_FOLDER;/root/MyCode/EOS_study/build/contracts/hello   
@@ -146,10 +146,10 @@ TARGET;hello;INCLUDE_FOLDERS;/root/MyCode/EOS_study/contracts;/root/MyCode/EOS_s
 1. 查看入参中SOURCE_FILES 查看字段内容，如果不存在就默认找 ${TARGET}.cpp
 2. 把每个.cpp文件编译成.bc文件
 
-##add_wast_library
+## add_wast_library
 1. 把compile_wast 编译出来的.bc文件，聚合生成一个.bc文件（类似静态库）
 
-##add_wast_executable
+## add_wast_executable
 1. 把源文件和连接的.bc文件。合起来编译成一个.bc文件
 2. 根据.bc文件生成.s文件
 3. 根据.s文件生成.wast文件
