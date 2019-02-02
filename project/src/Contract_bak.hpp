@@ -39,5 +39,4 @@ namespace Mediation{
 
         std::vector<ParticipantsState*> m_member_vector;
 	};
-
 }
