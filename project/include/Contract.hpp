@@ -1,4 +1,6 @@
 #pragma once
+#include <eosiolib/eosio.hpp>
+
 namespace Mediation{
 	using CheckNum = std::string;
 	using Msg = std::string;
