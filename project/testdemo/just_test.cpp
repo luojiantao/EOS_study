@@ -1,4 +1,4 @@
-#include <eosiolib/eosio.hpp>
+/*#include <eosiolib/eosio.hpp>
 #include "Contract.hpp"
 using namespace eosio;
 
@@ -14,3 +14,32 @@ class hello : public eosio::contract {
 };
 
 EOSIO_ABI( hello, (hi) )
+*/
+
+#include <eosiolib/eosio.hpp>
+#include "Contract.hpp"
+
+using namespace eosio;
+
+CONTRACT hello : public contract {
+   public:
+      using contract::contract;
+
+      ACTION hi( name nm );
+      ACTION check( name nm );
+
+      using hi_action = action_wrapper<"hi"_n, &hello::hi>;
+      using check_action = action_wrapper<"check"_n, &hello::check>;
+};
+
+ACTION hello::hi( name nm ) {
+   print_f("Name : %\n", nm);
+   auto test_obj = Mediation::CContract();
+}
+
+ACTION hello::check( name nm ) {
+   print_f("Name : %\n", nm);
+   eosio::check(nm == "hello"_n, "check name not equal to `hello`");
+}
+
+EOSIO_DISPATCH( hello, (hi)(check) )
