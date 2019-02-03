@@ -1,5 +1,8 @@
 #pragma once
 namespace Mediation{
+	using CheckNum = std::string;
+	using Msg = std::string;
+	using account_name = name;
 	class CContract{
 		//friend Creator;
 
