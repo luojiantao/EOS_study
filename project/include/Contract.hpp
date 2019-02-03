@@ -2,7 +2,7 @@
 namespace Mediation{
 	using CheckNum = std::string;
 	using Msg = std::string;
-	using account_name = name;
+	using account_name = eosio::name;
 	class CContract{
 		//friend Creator;
 
