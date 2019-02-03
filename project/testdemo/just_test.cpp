@@ -25,11 +25,11 @@ CONTRACT hello : public contract {
    public:
     	using contract::contract;
 
-     	ACTION hello::hi( name nm ) {
+     	ACTION hi( name nm ) {
     		print_f("Name : %\n", nm);
    			auto test_obj = Mediation::CContract();
 	  	}
-      	ACTION hello::check( name nm ) {
+      	ACTION check( name nm ) {
    			print_f("Name : %\n", nm);
    			eosio::check(nm == "hello"_n, "check name not equal to `hello`");
 		}
