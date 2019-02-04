@@ -12,7 +12,7 @@ target_include_directories( just_test PUBLIC ${CMAKE_SOURCE_DIR}/../include ${CM
 
 #生成ABI为你教案
 SET(ABI_FILE just_test1.abi)
-SET(ABI_SRC_FILE just_test.cpp)
+SET(ABI_SRC_FILE ${CMAKE_SOURCE_DIR}/just_test.cpp)
 SET(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/../include)
 SET(CONTRACT_NAME hello)
 add_custom_command(OUTPUT ${ABI_FILE} 
@@ -22,5 +22,5 @@ COMMENT "eosio-abigen")
 
 add_custom_target(Test1 ALL DEPENDS ${ABI_FILE})
 
-configure_file("${ABI_FILE}" "${CMAKE_CURRENT_BINARY_DIR}" COPYONLY)
+#configure_file("${ABI_FILE}" "${CMAKE_CURRENT_BINARY_DIR}" COPYONLY)
 
