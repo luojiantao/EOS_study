@@ -11,7 +11,7 @@ target_include_directories( just_test PUBLIC ${CMAKE_SOURCE_DIR}/../include ${CM
 #target_ricardian_directory( just_test ${CMAKE_SOURCE_DIR}/../ricardian )
 
 #生成ABI为你教案
-SET(ABI_FILE just_test.abi)
+SET(ABI_FILE just_test1.abi)
 SET(ABI_SRC_FILE just_test.cpp)
 SET(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/../include)
 SET(CONTRACT_NAME hello)
