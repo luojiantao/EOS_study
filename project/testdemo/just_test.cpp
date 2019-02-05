@@ -18,6 +18,7 @@ EOSIO_ABI( hello, (hi) )
 
 #include <eosiolib/eosio.hpp>
 #include "Contract.hpp"
+#inlcude "ABIheader.hpp"
 
 using namespace eosio;
 
