@@ -1,6 +1,8 @@
 #pragma once
 #include <eosiolib/eosio.hpp>
+#include "eosiolib/types.h"
 #include "base_64.h"
+
 namespace Mediation{
 	using CheckNum = std::string;
 	using Msg = std::string;
@@ -31,16 +33,18 @@ namespace Mediation{
     	//test
     	CContract();
     	CContract(account_name create, std::string context = std::string()):
-    	m_creater(create),m_context(context)
-    	{
-    		checksum calc_hash;
-			sha256( data, length, &calc_hash );
-			Base64 *base = new Base64();
-			std::string normal,encoded;
-			encoded = base->Encode(&calc_hash,sizeof(calc_hash));
-			print_f("Name : %s\n", encoded.c_str());
-			//eos_assert( calc_hash == hash, "invalid hash" );
-    	}
+        m_creater(create),m_context(context)
+        {
+            capi_checksum256 calc_hash;
+            std::string has_head =  name{m_creater}.to_string() + m_context;
+            sha256( has_head.c_str(), m_context.length(), &calc_hash );
+            Base64 base();
+            std::string normal,encoded;
+            const unsigned char* ttt = (const unsigned char*)(&calc_hash);
+            m_hash = base.Encode(ttt,sizeof(calc_hash));
+            print_f("Name : %  % %\n", m_hash.c_str(), m_hash.length(), has_head.c_str());
+        }
+
     	~CContract();
 	private:
 		ContractState StateCalculate();
