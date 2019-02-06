@@ -36,11 +36,11 @@ CONTRACT hello : public contract {
  			eosio::check(nm == "hello"_n, "check name not equal to `hello`");
 	  }
 
-    ACTION post_info(std::string msg){
+    ACTION postinfo(std::string msg){
       print(msg);
     }
 
-    ACTION get_info(std::string msg){
+    ACTION getinfo(std::string msg){
       print(msg);
     }
     TABLE test_table {
@@ -93,4 +93,4 @@ CONTRACT hello : public contract {
 
 
 
-EOSIO_DISPATCH( hello, (hi)(check)(post_info)(get_info) )
+EOSIO_DISPATCH( hello, (hi)(check)(postinfo)(getinfo) )
