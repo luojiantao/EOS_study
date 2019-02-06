@@ -21,7 +21,7 @@ EOSIO_ABI( hello, (hi) )
 #include "ABIheader.hpp"
 
 using namespace eosio;
-
+using namespace std;
 CONTRACT hello : public contract {
    public:
   	using contract::contract;
@@ -72,7 +72,7 @@ CONTRACT hello : public contract {
         uint64_t get_sponsor() const {return Sponsor; }
      
         //序列化
-        EOSLIB_SERIALIZE(ContractData, (Sponsor)(hash)(describe)(State));
+        EOSLIB_SERIALIZE(ContractState, (Sponsor)(hash)(describe)(State));
     };
 
     typedef eosio::multi_index< "testtab"_n, test_table > testtable_t;
@@ -80,7 +80,7 @@ CONTRACT hello : public contract {
             indexed_by< "creator"_n, const_mem_fun<ContractData, uint64_t, &ContractData::get_creator > >
             > ContractData_index;
     typedef eosio::multi_index< "contractstate"_n, ContractState,
-            indexed_by<N(Sponsor), const_mem_fun<ContractState, uint64_t, &ContractState::get_sponsor>>
+            indexed_by<"sponsor"_n, const_mem_fun<ContractState, uint64_t, &ContractState::get_sponsor>>
             > ContractState_index;
 
     using hi_action = action_wrapper<"hi"_n, &hello::hi>;
