@@ -18,6 +18,7 @@ SET(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/../include)
 SET(CONTRACT_NAME hello)
 add_custom_command(OUTPUT ${ABI_FILE} 
 COMMAND echo "Generating ${ABI_FILE}..." 
+COMMAND rm ${CMAKE_CURRENT_BINARY_DIR}/${ABI_FILE} -f
 COMMAND eosio-abigen ${ABI_SRC_FILE} --contract=${CONTRACT_NAME} --output=${ABI_FILE} --extra-arg-before=-I${INCLUDE_DIR}
 COMMENT "eosio-abigen")
 
