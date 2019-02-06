@@ -46,7 +46,7 @@ CONTRACT hello : public contract {
     TABLE test_table {
       uint64_t owner;
       uint64_t primary_key() const { return owner; }
-    }；
+    };
     TABLE ContractData {
       uint64_t creator;
       uint64_t hash;// sha256(creator + content)
