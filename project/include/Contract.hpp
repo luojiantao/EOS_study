@@ -2,7 +2,9 @@
 #include <eosiolib/eosio.hpp>
 #include "eosiolib/types.h"
 #include "base_64.h"
+#include "json.hpp"
 using namespace eosio;
+using json = nlohmann::json;
 namespace Mediation{
 	using CheckNum = std::string;
 	using Msg = std::string;
@@ -44,11 +46,28 @@ namespace Mediation{
             m_hash = base.Encode(ttt,sizeof(calc_hash));
             print_f("Name : %  % %\n", m_hash.c_str(), m_hash.length(), has_head.c_str());
         }
-
+        std::string SerializeByJson(){
+        	/*
+				{
+					"context"： m_context,
+					"hash" : m_hash,
+					"max_member" : m_max_member,
+					"creater" : m_creater,
+					"ParticipantsStateHash":[""],
+				}
+        	*/
+        	json j;
+        	j["context"] = m_context;
+        	j["hash"] = m_hash;
+        	j["max_member"] = m_max_member;
+        	j["creater"] = (uint64_t) m_creater;
+        	j[ParticipantsState_Hash] = {"1", "2", "3"};
+        	return j.dump();
+        }
     	~CContract();
 	private:
 		ContractState StateCalculate();
-    	std::string Serialize();
+    	std::string SerializeByJson();
     	void Storage();
     	
         Msg m_context;
