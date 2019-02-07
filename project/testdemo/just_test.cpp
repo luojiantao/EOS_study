@@ -111,6 +111,11 @@ CONTRACT hello : public contract {
 
     ACTION postinfo(std::string msg){
       print(msg);
+      ContractData_index st(_self, _self.value);
+      auto itr = st.begin();
+      while(itr != st.end()){
+        itr = st.erase(itr);
+      }
     }
 
     ACTION getinfo(std::string msg){
