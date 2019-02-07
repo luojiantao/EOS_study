@@ -22,9 +22,47 @@ EOSIO_ABI( hello, (hi) )
 
 using namespace eosio;
 using namespace std;
+TABLE test_table {
+  uint64_t owner;
+  uint64_t primary_key() const { return owner; }
+};
+TABLE ContractData {
+  uint64_t creator;
+  uint64_t hash;// sha256(creator + content)
+  string content;
+  string UseInfo;///存储所有合约状态的索引
+
+  uint64_t primary_key() const { return hash; }
+
+  uint64_t get_creator() const {return creator; }
+
+  //序列化
+  EOSLIB_SERIALIZE(ContractData, (creator)(hash)(content)(UseInfo));
+};
+
+struct ContractState {
+    uint64_t Sponsor;
+    uint64_t hash;// sha256(Sponsor + ContractData.hash + describe)
+    string describe;
+    string State;
+    
+    uint64_t primary_key() const { return hash; }
+   
+    uint64_t get_sponsor() const {return Sponsor; }
+ 
+    //序列化
+    EOSLIB_SERIALIZE(ContractState, (Sponsor)(hash)(describe)(State));
+};
 CONTRACT hello : public contract {
    public:
   	using contract::contract;
+    typedef eosio::multi_index< "testtab"_n, test_table > testtable_t;
+    typedef eosio::multi_index< "contractdata"_n, ContractData,
+            indexed_by< "creator"_n, const_mem_fun<ContractData, uint64_t, &ContractData::get_creator > >
+            > ContractData_index;
+    typedef eosio::multi_index< "contractstate"_n, ContractState,
+            indexed_by<"sponsor"_n, const_mem_fun<ContractState, uint64_t, &ContractState::get_sponsor>>
+            > ContractState_index;
     void init(){}
    	ACTION hi( name nm ) {
   		print_f("Name : %\n", nm);
@@ -59,46 +97,6 @@ CONTRACT hello : public contract {
     ACTION getinfo(std::string msg){
       print(msg);
     }
-    TABLE test_table {
-      uint64_t owner;
-      uint64_t primary_key() const { return owner; }
-    };
-    TABLE ContractData {
-      uint64_t creator;
-      uint64_t hash;// sha256(creator + content)
-      string content;
-      string UseInfo;///存储所有合约状态的索引
-
-      uint64_t primary_key() const { return hash; }
-
-      uint64_t get_creator() const {return creator; }
-
-      //序列化
-      EOSLIB_SERIALIZE(ContractData, (creator)(hash)(content)(UseInfo));
-    };
-
-    struct ContractState {
-        uint64_t Sponsor;
-        uint64_t hash;// sha256(Sponsor + ContractData.hash + describe)
-        string describe;
-        string State;
-        
-        uint64_t primary_key() const { return hash; }
-       
-        uint64_t get_sponsor() const {return Sponsor; }
-     
-        //序列化
-        EOSLIB_SERIALIZE(ContractState, (Sponsor)(hash)(describe)(State));
-    };
-
-    typedef eosio::multi_index< "testtab"_n, test_table > testtable_t;
-    typedef eosio::multi_index< "contractdata"_n, ContractData,
-            indexed_by< "creator"_n, const_mem_fun<ContractData, uint64_t, &ContractData::get_creator > >
-            > ContractData_index;
-    typedef eosio::multi_index< "contractstate"_n, ContractState,
-            indexed_by<"sponsor"_n, const_mem_fun<ContractState, uint64_t, &ContractState::get_sponsor>>
-            > ContractState_index;
-
     using hi_action = action_wrapper<"hi"_n, &hello::hi>;
     using check_action = action_wrapper<"check"_n, &hello::check>;
 };
