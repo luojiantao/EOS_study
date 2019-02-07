@@ -67,7 +67,6 @@ namespace Mediation{
     	~CContract();
 	private:
 		ContractState StateCalculate();
-    	std::string SerializeByJson();
     	void Storage();
     	
         Msg m_context;
