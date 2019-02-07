@@ -60,8 +60,8 @@ namespace Mediation{
         	j["context"] = m_context;
         	j["hash"] = m_hash;
         	j["max_member"] = m_max_member;
-        	j["creater"] = (uint64_t) m_creater;
-        	j[ParticipantsState_Hash] = {"1", "2", "3"};
+        	j["creater"] = (uint64_t) m_creater.value;
+        	j["ParticipantsState_Hash"] = {"1", "2", "3"};
         	return j.dump();
         }
     	~CContract();

@@ -28,7 +28,7 @@ CONTRACT hello : public contract {
     void init(){}
    	ACTION hi( name nm ) {
   		print_f("Name : %\n", nm);
- 			auto test_obj = Mediation::CContract();
+ 			auto test_obj = Mediation::CContract(_self);
       print(test_obj.SerializeByJson());
       testtable_t ll(_self, _self.value);
   	}
