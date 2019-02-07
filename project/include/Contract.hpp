@@ -64,6 +64,9 @@ namespace Mediation{
         	j["ParticipantsState_Hash"] = {"1", "2", "3"};
         	return j.dump();
         }
+        std::string GetHash(){
+        	return m_hash;
+        }
     	~CContract();
 	private:
 		ContractState StateCalculate();

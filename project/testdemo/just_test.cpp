@@ -31,6 +31,21 @@ CONTRACT hello : public contract {
  			auto test_obj = Mediation::CContract(_self);
       print(test_obj.SerializeByJson());
       testtable_t ll(_self, _self.value);
+      ContractData_index storage_obj(_self, "luojiantao"_n);
+      auto creator_index = storage_obj.get_index<name("creator")>();
+      auto itr = creator_index.find(_self.value);
+      if (itr != creator_index.end()){
+        print("***exit***");
+        print(itr->content);
+      }else{
+        print("***insert***");
+        bycustomer.emplace(test_obj.GetHash(), [&](auto& c){
+          c.creator = _self.value;
+          c.hash = test_obj.GetHash();
+          c.content = test_obj.SerializeByJson();
+          c.UseInfo = "luojiantao";
+        });
+      }
   	}
     	ACTION check( name nm ) {
  			print_f("Name : %\n", nm);
