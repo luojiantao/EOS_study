@@ -22,39 +22,40 @@ EOSIO_ABI( hello, (hi) )
 
 using namespace eosio;
 using namespace std;
-TABLE test_table {
-  uint64_t owner;
-  uint64_t primary_key() const { return owner; }
-};
-TABLE ContractData {
-  uint64_t creator;
-  uint64_t hash;// sha256(creator + content)
-  string content;
-  string UseInfo;///存储所有合约状态的索引
 
-  uint64_t primary_key() const { return hash; }
-
-  uint64_t get_creator() const {return creator; }
-
-  //序列化
-  EOSLIB_SERIALIZE(ContractData, (creator)(hash)(content)(UseInfo));
-};
-
-struct ContractState {
-    uint64_t Sponsor;
-    uint64_t hash;// sha256(Sponsor + ContractData.hash + describe)
-    string describe;
-    string State;
-    
-    uint64_t primary_key() const { return hash; }
-   
-    uint64_t get_sponsor() const {return Sponsor; }
- 
-    //序列化
-    EOSLIB_SERIALIZE(ContractState, (Sponsor)(hash)(describe)(State));
-};
 CONTRACT hello : public contract {
-   public:
+  TABLE test_table {
+    uint64_t owner;
+    uint64_t primary_key() const { return owner; }
+  };
+  TABLE ContractData {
+    uint64_t creator;
+    uint64_t hash;// sha256(creator + content)
+    string content;
+    string UseInfo;///存储所有合约状态的索引
+
+    uint64_t primary_key() const { return hash; }
+
+    uint64_t get_creator() const {return creator; }
+
+    //序列化
+    EOSLIB_SERIALIZE(ContractData, (creator)(hash)(content)(UseInfo));
+  };
+
+  struct ContractState {
+      uint64_t Sponsor;
+      uint64_t hash;// sha256(Sponsor + ContractData.hash + describe)
+      string describe;
+      string State;
+      
+      uint64_t primary_key() const { return hash; }
+     
+      uint64_t get_sponsor() const {return Sponsor; }
+   
+      //序列化
+      EOSLIB_SERIALIZE(ContractState, (Sponsor)(hash)(describe)(State));
+  };
+  public:
   	using contract::contract;
     typedef eosio::multi_index< "testtab"_n, test_table > testtable_t;
     typedef eosio::multi_index< "contractdata"_n, ContractData,
@@ -68,6 +69,7 @@ CONTRACT hello : public contract {
   		print_f("Name : %\n", nm);
  			auto test_obj = Mediation::CContract(_self);
       print(test_obj.SerializeByJson());
+      /*
       testtable_t ll(_self, _self.value);
       ContractData_index storage_obj(_self, "luojiantao"_n);
       auto creator_index = storage_obj.get_index<name("creator")>();
@@ -83,7 +85,24 @@ CONTRACT hello : public contract {
           c.content = test_obj.SerializeByJson();
           c.UseInfo = "luojiantao";
         });
+      }*/
+      ContractData_index storage_obj(_self, _self.value);
+      //auto creator_index = storage_obj.get_index<name("creator")>();
+     // auto itr = creator_index.find(_self.value);
+      auto itr = storage_obj.find(_self.value);
+      if (itr != storage_obj.end()){
+        print("***exit***", _self.value);
+    //    print(itr->content);
+      }else{
+        print("***insert***");
+        storage_obj.emplace(_self, [&](auto& c){
+          c.creator = _self.value;
+          c.hash = _self.value;
+         // c.content = test_obj.SerializeByJson();
+   //       c.UseInfo = "luojiantao";
+        });
       }
+
   	}
     	ACTION check( name nm ) {
  			print_f("Name : %\n", nm);
