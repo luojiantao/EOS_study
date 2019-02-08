@@ -37,14 +37,11 @@ namespace Mediation{
     	CContract(account_name create, std::string context = std::string()):
         m_creater(create),m_context(context)
         {
-            capi_checksum256 calc_hash;
+            //capi_checksum256 calc_hash;
             std::string has_head =  name{m_creater}.to_string() + m_context;
-            sha256( has_head.c_str(), m_context.length(), &calc_hash );
-            Base64 base;
-            std::string normal,encoded;
-            const unsigned char* ttt = (const unsigned char*)(&calc_hash);
-            m_hash = base.Encode(ttt,sizeof(calc_hash));
-            print_f("Name : %  % %\n", m_hash.c_str(), m_hash.length(), has_head.c_str());
+            sha256( has_head.c_str(), has_head.length(), &m_hash );
+
+            print_f("Name : % %\n", m_hash , has_head.c_str());
         }
         std::string SerializeByJson(){
         	/*
@@ -58,14 +55,19 @@ namespace Mediation{
         	*/
         	json j;
         	j["context"] = m_context;
-        	j["hash"] = m_hash;
+        	Base64 base;
+        	std::string normal,encoded;
+        	const unsigned char* ttt = (const unsigned char*)(&m_hash);
+        	std::string hash = base.Encode(ttt,sizeof(m_hash));
+        	j["hash"] = hash;
         	j["max_member"] = m_max_member;
         	j["creater"] = (uint64_t) m_creater.value;
         	j["ParticipantsState_Hash"] = {"1", "2", "3"};
         	return j.dump();
         }
-        std::string GetHash(){
-        	return m_hash;
+        void GetHash(capi_checksum256& hash){
+        	memset(&hash, &m_hash, sizeof(m_hash));
+        	//return m_hash;
         }
     	~CContract();
 	private:
@@ -75,8 +77,8 @@ namespace Mediation{
         Msg m_context;
         account_name m_creater;
 	    unsigned short m_max_member = 1;
-	    std::string m_hash;//hash(m_creater + m_context)
-	    std::string m_next_hash;
+	    capi_checksum256 m_hash;//hash(m_creater + m_context)
+	    //std::string m_next_hash;
 	    int m_contract_value = 0;
 	    int m_sign_value = 0;
 

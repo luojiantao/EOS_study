@@ -22,7 +22,25 @@ EOSIO_ABI( hello, (hi) )
 
 using namespace eosio;
 using namespace std;
+namespace eosio{
+  static void capi_checksum256_to_checksum256(checksum256 &k, const capi_checksum256 &hash)
+  {
+    const uint128_t *p128 = reinterpret_cast<const uint128_t *>(&hash);
+    //checksum256 k;
+    k.data()[0] = p128[0];
+    k.data()[1] = p128[1];
+   // return k;
+  }
 
+  static checksum256 capi_checksum256_to_checksum256(const capi_checksum256 &hash)
+  {
+    const uint128_t *p128 = reinterpret_cast<const uint128_t *>(&hash);
+    checksum256 k;
+    k.data()[0] = p128[0];
+    k.data()[1] = p128[1];
+   return k;
+  }
+}
 CONTRACT hello : public contract {
   TABLE test_table {
     uint64_t owner;
@@ -30,19 +48,22 @@ CONTRACT hello : public contract {
   };
   TABLE ContractData {
     uint64_t creator;
-    uint64_t hash;// sha256(creator + content)
+    //uint64_t hash;// sha256(creator + content)
+    capi_checksum256 hash;
+    //checksum256 hash;
     string content;
     string UseInfo;///存储所有合约状态的索引
 
-    uint64_t primary_key() const { return hash; }
+    checksum256 primary_key() const { return capi_checksum256_to_checksum256(hash); }
 
     uint64_t get_creator() const {return creator; }
+    //fixed_bytes<32> by_hash() const { return checksum256_to_sha256(hash); }//TODO
 
     //序列化
     EOSLIB_SERIALIZE(ContractData, (creator)(hash)(content)(UseInfo));
   };
 
-  struct ContractState {
+  TABLE ContractState {
       uint64_t Sponsor;
       uint64_t hash;// sha256(Sponsor + ContractData.hash + describe)
       string describe;
@@ -69,37 +90,23 @@ CONTRACT hello : public contract {
   		print_f("Name : %\n", nm);
  			auto test_obj = Mediation::CContract(_self);
       print(test_obj.SerializeByJson());
-      /*
-      testtable_t ll(_self, _self.value);
-      ContractData_index storage_obj(_self, "luojiantao"_n);
+
+      ContractData_index storage_obj(_self, _self.value);
       auto creator_index = storage_obj.get_index<name("creator")>();
       auto itr = creator_index.find(_self.value);
+      auto itr = creator_index.find(_self.value);
       if (itr != creator_index.end()){
-        print("***exit***");
-        print(itr->content);
-      }else{
-        print("***insert***");
-        bycustomer.emplace(test_obj.GetHash(), [&](auto& c){
-          c.creator = _self.value;
-          c.hash = test_obj.GetHash();
-          c.content = test_obj.SerializeByJson();
-          c.UseInfo = "luojiantao";
-        });
-      }*/
-      ContractData_index storage_obj(_self, _self.value);
-      //auto creator_index = storage_obj.get_index<name("creator")>();
-     // auto itr = creator_index.find(_self.value);
-      auto itr = storage_obj.find(_self.value);
-      if (itr != storage_obj.end()){
         print("***exit***", _self.value);
     //    print(itr->content);
       }else{
         print("***insert***");
         storage_obj.emplace(_self, [&](auto& c){
           c.creator = _self.value;
-          c.hash = _self.value;
-         // c.content = test_obj.SerializeByJson();
-   //       c.UseInfo = "luojiantao";
+          test_obj.GetHash(c.hash);
+          //c.hash = _self.value;
+          c.content = test_obj.SerializeByJson();
+          c.UseInfo = "[]";
+
         });
       }
 
@@ -111,7 +118,7 @@ CONTRACT hello : public contract {
 
     ACTION postinfo(std::string msg){
       print(msg);
-      ContractData_index st(_self, _self.value);
+      ContractData_index st(_self, name(mas).value);
       auto itr = st.begin();
       while(itr != st.end()){
         itr = st.erase(itr);
