@@ -5,6 +5,7 @@
 #include "json.hpp"
 using namespace eosio;
 using json = nlohmann::json;
+using ::memcpy;
 namespace Mediation{
 	using CheckNum = std::string;
 	using Msg = std::string;
@@ -41,7 +42,7 @@ namespace Mediation{
             std::string has_head =  name{m_creater}.to_string() + m_context;
             sha256( has_head.c_str(), has_head.length(), &m_hash );
 
-            print_f("Name : % %\n", m_hash , has_head.c_str());
+            //print_f("Name : % %\n", m_hash , has_head.c_str());
         }
         std::string SerializeByJson(){
         	/*
@@ -66,7 +67,7 @@ namespace Mediation{
         	return j.dump();
         }
         void GetHash(capi_checksum256& hash){
-        	memset(&hash, &m_hash, sizeof(m_hash));
+        	memcpy(&hash, &m_hash, sizeof(m_hash));
         	//return m_hash;
         }
     	~CContract();

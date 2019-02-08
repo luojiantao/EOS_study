@@ -54,13 +54,13 @@ CONTRACT hello : public contract {
     string content;
     string UseInfo;///存储所有合约状态的索引
 
-    checksum256 primary_key() const { return capi_checksum256_to_checksum256(hash); }
+    uint64_t primary_key() const { return *((uint64_t*)&hash); }
 
     uint64_t get_creator() const {return creator; }
-    //fixed_bytes<32> by_hash() const { return checksum256_to_sha256(hash); }//TODO
+    checksum256 by_hash() const { return capi_checksum256_to_checksum256(hash); }//TODO
 
     //序列化
-    EOSLIB_SERIALIZE(ContractData, (creator)(hash)(content)(UseInfo));
+    //EOSLIB_SERIALIZE(ContractData, (creator)(hash)(content)(UseInfo));
   };
 
   TABLE ContractState {
@@ -80,7 +80,8 @@ CONTRACT hello : public contract {
   	using contract::contract;
     typedef eosio::multi_index< "testtab"_n, test_table > testtable_t;
     typedef eosio::multi_index< "contractdata"_n, ContractData,
-            indexed_by< "creator"_n, const_mem_fun<ContractData, uint64_t, &ContractData::get_creator > >
+            indexed_by< "creator"_n, const_mem_fun<ContractData, uint64_t, &ContractData::get_creator > >,
+            indexed_by< "hash"_n, const_mem_fun<ContractData, checksum256, &ContractData::by_hash > >
             > ContractData_index;
     typedef eosio::multi_index< "contractstate"_n, ContractState,
             indexed_by<"sponsor"_n, const_mem_fun<ContractState, uint64_t, &ContractState::get_sponsor>>
@@ -90,11 +91,13 @@ CONTRACT hello : public contract {
   		print_f("Name : %\n", nm);
  			auto test_obj = Mediation::CContract(_self);
       print(test_obj.SerializeByJson());
-
+      capi_checksum256 hash;
+      test_obj.GetHash(hash);
       ContractData_index storage_obj(_self, _self.value);
-      auto creator_index = storage_obj.get_index<name("creator")>();
-      auto itr = creator_index.find(_self.value);
-      auto itr = creator_index.find(_self.value);
+      auto creator_index = storage_obj.get_index<name("hash")>();
+
+      auto itr = creator_index.find(capi_checksum256_to_checksum256(hash));
+      //auto itr = creator_index.find(_self.value);
       if (itr != creator_index.end()){
         print("***exit***", _self.value);
     //    print(itr->content);
