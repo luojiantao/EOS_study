@@ -30,25 +30,11 @@ namespace Mediation{
 	using CheckNum = std::string;
 	using Msg = std::string;
 	using account_name = eosio::name;
-	CONTRACT CContract{
-		//friend Creator;
 
-		struct ParticipantsState{
-	        std::string name;
-	        std::string sign;
-	        std::string describe;
-	        CheckNum check_num;
-	        unsigned int weigth;
-	        unsigned int index;//后续考虑需不要，删除
-        };
-	    enum ContractStateEnum{
-	    	TOBETAKE = 0,
-	        TAKED,
-	        CONSENSUS_SUCCESS,
-	        CONSENSUS_UNSUCCESS,
-	        UNCONSENSUS,
-	    };
-	    TABLE ContractData {
+	class CContract;
+    CONTRACT ContractInterface: public contract{
+    public:
+    	TABLE ContractData {
 		    uint64_t creator;
 		    capi_checksum256 hash;// sha256(creator + content)
 		    //checksum256 hash;
@@ -109,8 +95,8 @@ namespace Mediation{
 	            indexed_by<"sponsor"_n, const_mem_fun<ContractState, uint64_t, &ContractState::get_sponsor>>,
 	            indexed_by< "hash"_n, const_mem_fun<ContractState, checksum256, &ContractState::by_hash > >
 	            > ContractState_index;
-    public:
-    	ACTION test(std::string msg){
+	    
+	    ACTION test(std::string msg){
 
     	}
     	ACTION cleardata(std::string msg){
@@ -121,6 +107,31 @@ namespace Mediation{
 	            itr = st.erase(itr);
             }
     	}
+
+    };
+
+	class CContract{
+		//friend Creator;
+		using ContractData_index = ContractInterface::ContractData_index;
+		using ContractState_index = ContractInterface::ContractState_index;
+		struct ParticipantsState{
+	        std::string name;
+	        std::string sign;
+	        std::string describe;
+	        CheckNum check_num;
+	        unsigned int weigth;
+	        unsigned int index;//后续考虑需不要，删除
+        };
+	    enum ContractStateEnum{
+	    	TOBETAKE = 0,
+	        TAKED,
+	        CONSENSUS_SUCCESS,
+	        CONSENSUS_UNSUCCESS,
+	        UNCONSENSUS,
+	    };
+
+    public:
+
     	//参与者分为三种角色：合约创建者，合约发起者，合约参与者
     	template<typename T>
     	T GetParticipants(account_name n);
@@ -207,6 +218,8 @@ namespace Mediation{
 
         std::vector<ParticipantsState*> m_member_vector;
 	};
+
+
 }
 
-EOSIO_DISPATCH( CContract, (test) )
+EOSIO_DISPATCH( ContractInterface, (test) )
