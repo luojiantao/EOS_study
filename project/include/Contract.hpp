@@ -141,9 +141,9 @@ namespace Mediation{
 
             //print_f("Name : % %\n", m_hash , has_head.c_str());
         }*/
-    	void SetContract(account_name create, std::string context ){
+    	static void SetContract(account_name create, std::string context, capi_checksum256& calc_hash){
     		//std::string hash =  name{create}.to_string() + context;	
-    		capi_checksum256 calc_hash;
+    		//capi_checksum256 calc_hash;
     		//sha256( hash.c_str(), hash.length(), &m_hash );
     		std::string hash =  name{create}.to_string() + context;
 		    sha256( hash.c_str(), hash.length(), &(calc_hash) );

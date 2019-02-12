@@ -7,7 +7,13 @@ namespace Mediation{
 
     //ContractInterface::test(std::string msg){}
 	ACTION ContractInterface::test(std::string msg){
-    	auto aa = Mediation::CContract();
+    	auto Obj = Mediation::CContract();
+    	capi_checksum256 calc_hash;
+    	Obj.SetContract(name("luo"), "test", calc_hash);
+    	print("ret:: ", calc_hash);
+    	//Mediation::SetContract(name("luo"), "test");
+    	//Mediation::
+
     }
 
 	ACTION ContractInterface::cleardata(std::string msg){
