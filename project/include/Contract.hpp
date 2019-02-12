@@ -56,7 +56,7 @@ namespace Mediation{
 	        capi_checksum256 contract_hash;
 	        capi_checksum256 hash;// sha256(Sponsor + ContractData.hash + describe)
 	        string describe;
-	        string State;
+	        unsigned int State;
 	      /*
 	      {
 	        "creator": {
@@ -83,7 +83,7 @@ namespace Mediation{
 	        uint64_t get_sponsor() const {return Sponsor; }
 	   
 	      //序列化
-	        EOSLIB_SERIALIZE(ContractState, (Sponsor)(hash)(describe)(State));
+	       // EOSLIB_SERIALIZE(ContractState, (Sponsor)(hash)(describe)(State));
 		};
   	public:
   	using contract::contract;
@@ -92,7 +92,7 @@ namespace Mediation{
 	            indexed_by< "creator"_n, const_mem_fun<ContractData, uint64_t, &ContractData::get_creator > >,
 	            indexed_by< "hash"_n, const_mem_fun<ContractData, checksum256, &ContractData::by_hash > >
 	            > ContractData_index;
-	    typedef eosio::multi_index< "contractstate"_n, ContractState,
+	    typedef eosio::multi_index< "contractstat"_n, ContractState,
 	            indexed_by<"sponsor"_n, const_mem_fun<ContractState, uint64_t, &ContractState::get_sponsor>>,
 	            indexed_by< "hash"_n, const_mem_fun<ContractState, checksum256, &ContractState::by_hash > >
 	            > ContractState_index;
@@ -177,7 +177,7 @@ namespace Mediation{
 		    Storage_State.emplace(name("luo"), [&](auto& c){
 		    	sha256( hash_state.c_str(), hash_state.length(), &(c.hash) );
 		    	memcpy(&(c.contract_hash),&(calc_hash), sizeof(calc_hash));
-		    	c.state = 0;
+		    	c.State = 0;
 		    	c.describe = describe;
 		    	c.Sponsor = name("luo").value;
 		    });
