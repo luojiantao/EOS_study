@@ -122,7 +122,7 @@ namespace Mediation{
 	        unsigned int weigth;
 	        unsigned int index;//后续考虑需不要，删除
         };
-	    enum ContractStateEnum{
+	    enum ContractState{
 	    	TOBETAKE = 0,
 	        TAKED,
 	        CONSENSUS_SUCCESS,
