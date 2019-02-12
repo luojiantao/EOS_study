@@ -98,7 +98,7 @@ namespace Mediation{
 	            > ContractState_index;
 
 	    ACTION test(std::string msg){
-	    	auto aa = CContract();
+	    	auto aa = Mediation::CContract();
 	    }
     	ACTION cleardata(std::string msg){
     		print(msg);
