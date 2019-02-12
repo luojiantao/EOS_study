@@ -151,13 +151,14 @@ namespace Mediation{
             //print_f("Name : % %\n", m_hash , has_head.c_str());
         }*/
     	void SetContract(account_name create, std::string context ){
-    		std::string hash =  name{create}.to_string() + context;	
+    		//std::string hash =  name{create}.to_string() + context;	
     		capi_checksum256 calc_hash;
-    		sha256( hash.c_str(), hash.length(), &m_hash );
-
+    		//sha256( hash.c_str(), hash.length(), &m_hash );
+    		std::string hash =  name{create}.to_string() + context;
+		    sha256( hash.c_str(), hash.length(), &(calc_hash) );
     		auto creator_index = m_storage.get_index<name("hash")>();
 
-		    auto itr = creator_index.find(eosio::capi_checksum256_to_checksum256(hash));
+		    auto itr = creator_index.find(eosio::capi_checksum256_to_checksum256(calc_hash));
 		      //auto itr = creator_index.find(_self.value);
 		    if (itr != creator_index.end()){
 		        print("***exit***", "luo");
