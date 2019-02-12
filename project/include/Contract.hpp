@@ -4,6 +4,7 @@
 #include "base_64.h"
 #include "json.hpp"
 using namespace eosio;
+using namespace std;
 using json = nlohmann::json;
 using ::memcpy;
 namespace eosio{
@@ -147,7 +148,7 @@ namespace Mediation{
 		    auto itr = creator_index.find(capi_checksum256_to_checksum256(hash));
 		      //auto itr = creator_index.find(_self.value);
 		    if (itr != creator_index.end()){
-		        print("***exit***", _self.value);
+		        print("***exit***", "luo");
 		    //    print(itr->content);
 		    }else{
 		        print("***insert***");
