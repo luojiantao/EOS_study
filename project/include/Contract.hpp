@@ -95,7 +95,7 @@ namespace Mediation{
 	            indexed_by<"sponsor"_n, const_mem_fun<ContractState, uint64_t, &ContractState::get_sponsor>>,
 	            indexed_by< "hash"_n, const_mem_fun<ContractState, checksum256, &ContractState::by_hash > >
 	            > ContractState_index;
-	    
+
 	    ACTION test(std::string msg){
 
     	}
@@ -222,4 +222,4 @@ namespace Mediation{
 
 }
 
-EOSIO_DISPATCH( ContractInterface, (test) )
+EOSIO_DISPATCH( Mediation::ContractInterface, (test) )
