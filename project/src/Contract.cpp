@@ -27,6 +27,12 @@ namespace Mediation{
 	    while(itr != st.end()){
 	        itr = st.erase(itr);
 	    }
+
+	    ContractState_index st0(name("luo"), name("luo").value);
+	    auto itr0 = st0.begin();
+	    while(itr0 != st0.end()){
+	    	itr0 = st0.erase(itr0);
+	    }
 	}
 
 }

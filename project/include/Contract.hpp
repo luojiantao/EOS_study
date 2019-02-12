@@ -153,6 +153,7 @@ namespace Mediation{
 		      //auto itr = creator_index.find(_self.value);
 		    if (itr != creator_index.end()){
 		        print("***exit***", "luo");
+		        return;
 		    //    print(itr->content);
 		    }else{
 		        print("***insert***");
@@ -168,6 +169,18 @@ namespace Mediation{
 
 		        });
 		    }
+
+		    //初始化合约状态
+		    ContractState_index Storage_State(name("luo"), name("luo").value);//后续考虑分表(scope)
+		    string describe = "creater0";
+		    std::string hash_state = describe + hash;
+		    Storage_State.emplace(name("luo"), [&](auto& c){
+		    	sha256( hash_state.c_str(), hash_state.length(), &(c.hash) );
+		    	memcpy(&(c.contract_hash),&(calc_hash), sizeof(calc_hash));
+		    	c.state = 0;
+		    	c.describe = describe;
+		    	c.Sponsor = name("luo").value;
+		    });
     	}
 
         std::string SerializeByJson(){
