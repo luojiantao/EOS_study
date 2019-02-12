@@ -162,4 +162,4 @@ CONTRACT hello : public contract {
 
 
 
-EOSIO_DISPATCH( hello, (hi)(check)(postinfo)(getinfo) )
+//EOSIO_DISPATCH( hello, (hi)(check)(postinfo)(getinfo) )

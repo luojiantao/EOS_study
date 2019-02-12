@@ -15,7 +15,7 @@ target_include_directories( just_test PUBLIC ${CMAKE_SOURCE_DIR}/../include ${CM
 SET(ABI_FILE just_test1.abi)
 SET(ABI_SRC_FILE ${CMAKE_SOURCE_DIR}/just_test.cpp)
 SET(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/../include)
-SET(CONTRACT_NAME hello)
+SET(CONTRACT_NAME ContractInterface)
 add_custom_command(OUTPUT ${ABI_FILE} 
 COMMAND echo "Generating ${ABI_FILE}..." 
 COMMAND rm ${CMAKE_CURRENT_BINARY_DIR}/${ABI_FILE} -f
