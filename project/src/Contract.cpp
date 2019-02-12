@@ -10,7 +10,11 @@ namespace Mediation{
     	auto Obj = Mediation::CContract();
     	capi_checksum256 calc_hash;
     	Obj.SetContract(name("luo"), "test", calc_hash);
-    	print("ret:: ", calc_hash);
+	    Base64 base;
+    	std::string normal,encoded;
+    	const unsigned char* ttt = (const unsigned char*)(&calc_hash);
+    	std::string hash = base.Encode(ttt,sizeof(calc_hash));
+    	print("ret:: ", hash);
     	//Mediation::SetContract(name("luo"), "test");
     	//Mediation::
 
@@ -18,7 +22,7 @@ namespace Mediation{
 
 	ACTION ContractInterface::cleardata(std::string msg){
 		print(msg);
-	    ContractData_index st(_self, name(msg).value);
+	    ContractData_index st("luo", name(msg).value);
 	    auto itr = st.begin();
 	    while(itr != st.end()){
 	        itr = st.erase(itr);
