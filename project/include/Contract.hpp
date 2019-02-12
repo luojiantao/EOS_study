@@ -27,6 +27,7 @@ namespace eosio{
   }
 }
 namespace Mediation{
+	using namespace eosio;
 	using CheckNum = std::string;
 	using Msg = std::string;
 	using account_name = eosio::name;
