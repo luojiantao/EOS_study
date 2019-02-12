@@ -11,12 +11,13 @@ namespace Mediation{
     }
 
 	ACTION ContractInterface::cleardata(std::string msg){
-	print(msg);
-    ContractData_index st(_self, name(msg).value);
-    auto itr = st.begin();
-    while(itr != st.end()){
-        itr = st.erase(itr);
-    }
+		print(msg);
+	    ContractData_index st(_self, name(msg).value);
+	    auto itr = st.begin();
+	    while(itr != st.end()){
+	        itr = st.erase(itr);
+	    }
+	}
 
 }
 
