@@ -86,7 +86,7 @@ namespace Mediation{
 		};
   	public:
   	using contract::contract;
-	    typedef eosio::multi_index< "testtab"_n, test_table > testtable_t;
+	    //typedef eosio::multi_index< "testtab"_n, test_table > testtable_t;
 	    typedef eosio::multi_index< "contractdata"_n, ContractData,
 	            indexed_by< "creator"_n, const_mem_fun<ContractData, uint64_t, &ContractData::get_creator > >,
 	            indexed_by< "hash"_n, const_mem_fun<ContractData, checksum256, &ContractData::by_hash > >
