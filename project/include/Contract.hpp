@@ -110,7 +110,7 @@ namespace Mediation{
 	            > ContractState_index;
     public:
     	ACTION test(std::string msg){
-    		
+
     	}
     	ACTION cleardata(std::string msg){
     		print(msg);
@@ -208,4 +208,4 @@ namespace Mediation{
 	};
 }
 
-EOSIO_DISPATCH( CContract, (hi) )
+EOSIO_DISPATCH( CContract, (test) )
