@@ -97,17 +97,8 @@ namespace Mediation{
 	            indexed_by< "hash"_n, const_mem_fun<ContractState, checksum256, &ContractState::by_hash > >
 	            > ContractState_index;
 
-	    ACTION test(std::string msg){
-	    	auto aa = Mediation::CContract();
-	    }
-    	ACTION cleardata(std::string msg){
-    		print(msg);
-	        ContractData_index st(_self, name(msg).value);
-	        auto itr = st.begin();
-	        while(itr != st.end()){
-	            itr = st.erase(itr);
-            }
-    	}
+	    ACTION test(std::string msg);
+    	ACTION cleardata(std::string msg);
 
     };
 
