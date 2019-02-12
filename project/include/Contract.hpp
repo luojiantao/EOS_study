@@ -157,7 +157,7 @@ namespace Mediation{
 
     		auto creator_index = m_storage.get_index<name("hash")>();
 
-		    auto itr = creator_index.find(capi_checksum256_to_checksum256(hash));
+		    auto itr = creator_index.find(eosio::capi_checksum256_to_checksum256(hash));
 		      //auto itr = creator_index.find(_self.value);
 		    if (itr != creator_index.end()){
 		        print("***exit***", "luo");
@@ -167,7 +167,7 @@ namespace Mediation{
 		        m_storage.emplace(name("luo"), [&](auto& c){
 		        c.creator = name("luo").value;
 
-		        td::string hash =  name{create}.to_string() + context;
+		        std::string hash =  name{create}.to_string() + context;
 		        sha256( hash.c_str(), hash.length(), &(c.hash) );
 		        //test_obj.GetHash(c.hash);
 		          //c.hash = _self.value;
