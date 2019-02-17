@@ -98,6 +98,25 @@ namespace Mediation{
 	            > ContractState_index;
 
 	    ACTION test(std::string msg);
+	    /*
+		*create: 合约创建者
+		*msg:
+		{
+			creator:"",
+			content:""
+		}
+	    */
+	    ACTION setcontract(name create, std::string msg);//TODO
+	    /*
+	    *msg:
+	    {
+			member:unit64,
+			type:(0,1,2),
+			func: sig,checksig
+			data:"",
+	    }
+	    */
+	    ACTION pushinfo();//TODO
     	ACTION cleardata(std::string msg);
 
     };
@@ -158,14 +177,14 @@ namespace Mediation{
 		    }else{
 		        print("***insert***");
 		        m_storage.emplace(name("luo"), [&](auto& c){
-		        c.creator = name("luo").value;
+		        c.creator = name(create).value;
 
 		        std::string hash =  name{create}.to_string() + context;
 		        sha256( hash.c_str(), hash.length(), &(c.hash) );
 		        //test_obj.GetHash(c.hash);
 		          //c.hash = _self.value;
 		        c.content = context;
-		        c.UseInfo = "[test]";
+		        c.UseInfo = "null";
 
 		        });
 		    }
