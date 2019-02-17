@@ -18,12 +18,15 @@ namespace Mediation{
     	//Mediation::SetContract(name("luo"), "test");
     	//Mediation::
 		/*action(
-            permission_level{ name("luo"), N(active) },
-            N(luo), N(setcontract),
-            std::make_tuple(from, _self, quantity, std::string(""))
+            permission_level{ name("luo"), name("active") },
+            name("luo"), name("setcontract"),
+            std::tuple<name, std::string>{name("luo"), "test11"}
          ).send();*/
-
-		SEND_INLINE_ACTION(*this, setcontract, {name("luo"), N(active)}, {name(luo), "test11"});
+		//
+		json j;
+		j["data"] = "test11";
+		std::string data = j.dump();
+		SEND_INLINE_ACTION(*this, setcontract, {name("luo"), N(active)}, {name(luo), data});
     }
 
 	ACTION ContractInterface::cleardata(std::string msg){
@@ -40,15 +43,16 @@ namespace Mediation{
 	    	itr0 = st0.erase(itr0);
 	    }
 	}
-	ACTION setcontract(name create, std::string msg){
+	ACTION ContractInterface::setcontract(name create, std::string msg){
 		auto Obj = Mediation::CContract();
 		capi_checksum256 calc_hash;//设置合约的hash
 		json j = json::parse(msg);
 		//string creator = j["data"]["creator"];
 
 		Obj.SetContract(create, msg, calc_hash);
-		signed char put[32] = {};
-		memcpy(put, calc_hash, 32);
+		//signed char put[32] = {};
+		char put[32] = {};
+		memcpy(put, &calc_hash, 32);
 		print("contract hash::", string(put, 32));
 	}
 
